@@ -1,0 +1,49 @@
+.weui-search-bar{
+  border-bottom: none
+}
+/* .weui-cell__ft_in-access::after{
+  border: none
+} */
+.detail-link-ft{
+  color: #488aff
+}
+.number-ft{
+  font-size: 18px
+}
+.price-name-ft{
+  font-size: 16px
+}
+.price-amount-ft{
+  color: #444444;
+  font-size: 18px
+}
+.weight-ft{
+  font-size: 13px;
+  padding-top:15px;
+  color: #999999;
+}
+.foot-bar{
+   border-top:1rpx solid #d9d9d9 
+}
+.weui-btn{
+  padding: 6px 6px 6px 6px;
+  line-height: 1.2;
+  font-size:13px; 
+  margin-top: 0px
+}
+button[plain]{
+  border-color :#488aff;
+  color:#488aff;
+ 
+}
+.button-hover[plain]{
+  color: white;
+  background-color: #488aff
+}
+.weui-vcode-btn{
+  border: none;
+  color: #488aff
+}
+/* .weui-vcode-btn:hover{
+  color: #ccdeff
+} */

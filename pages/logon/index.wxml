@@ -1,0 +1,45 @@
+<view class="page">
+  <form>
+    <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input {{userNameWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">账号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="userName" bindinput="inputUserName" confirm-type="next" placeholder="请输入账号" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{userNameWarning}}">
+                <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input {{passwordWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="password" password="true" bindinput="inputPassword" confirm-type="go" placeholder="请输入密码" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{passwordWarning}}">
+              <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+      </view>
+       <checkbox-group bindchange="bindWeChatChange">
+            <label class="weui-agree" for="weuiAgree">
+                <view class="weui-agree__text">
+                    <checkbox class="weui-agree__checkbox" id="weuiAgree" value="isBindWeChat" checked="{{isBindWeChat}}" />
+                    <view class="weui-agree__checkbox-icon">
+                        <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isBindWeChat}}"></icon>
+                    </view>
+                    登录后绑定微信
+                </view>
+            </label>
+        </checkbox-group> 
+      <view class="weui-btn-area">
+        <!-- <button class='weui-btn' type='primary' form-type='submit'>登录</button> -->
+        <button type="primary" open-type="getUserInfo" bindgetuserinfo="userInfoHandler">登录</button> 
+      </view>
+    </view>
+  </form>
+</view>

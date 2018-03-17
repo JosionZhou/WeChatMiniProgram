@@ -1,0 +1,16 @@
+
+.weui-navbar__title
+{
+  font-size: 12px;
+}
+.weui-navbar__item
+{
+  padding: 5px 0;
+}
+.weui-tab__panel
+{
+  padding-top: 30px;
+}
+.weui-article__h3{
+  font-size:14px
+}

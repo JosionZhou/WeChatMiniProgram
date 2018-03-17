@@ -1,0 +1,85 @@
+<view class='page'>
+  <view class='page__bd'>
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showErrorTips}}">{{errorTips}}</view>
+    <form bindsubmit='search'>
+      <view class="weui-cells weui-cells_after-title">
+
+        <view class="weui-cell weui-cell_select {{modeOfTransportWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">渠道</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker bindchange="modeofTransportChange" value="{{modeofTransportIndex}}" range="{{modeofTransportNameList}}">
+              <view class="weui-select weui-select_in-select-after">{{modeofTransportList[modeofTransportIndex].Name}}</view>
+            </picker>
+          </view>
+          <view class="weui-cell__ft" wx:if="{{modeOfTransportWarning}}">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input {{countryWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">国家</view>
+          </view>
+          <view class="weui-cell__bd">
+            <view class="weui-search-bar" style="background-color:white;padding:8px 0px">
+              <view class="weui-search-bar__form" style="border:none">
+                <view class="weui-search-bar__box" style="padding:0px">
+                  <input type="text" name="country" class="weui-search-bar__input" placeholder="请输入国家" value="{{countryText}}" bindinput="inputCountry" style="font-size:17px" />
+                </view>
+              </view>
+            </view>
+            <view class="weui-cells searchbar-result" style="position:absolute;z-index:999;margin-top:0px;background-color:#efeff4;width:60%;" wx:if="{{countryList.length > 0 && countryText.length>0 && !hideCP}}">
+              <navigator class="weui-cell" hover-class="weui-cell_active" wx:for="{{filtCountryList}}">
+                <view class="weui-cell__bd" bindtap='selectCountry' data-text='{{item.Name}}' data-value='{{item.Id}}' data-usepostalcode="{{item.UsePostalcode}}">
+                  <view>{{item.Name}}</view>
+                </view>
+              </navigator>
+            </view>
+          </view>
+          <view class="weui-cell__ft" wx:if="{{countryWarning}}">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input weui-cell_vcode {{cityWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">城市</view>
+          </view>
+          <view class="weui-cell__bd ">
+            <input class="weui-input" name="city" value="{{city}}" placeholder="{{isUsePostCode?'不支持按城市名查询':'请输入目的地城市'}}" disabled="{{isUsePostCode}}" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{cityWarning}}">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input weui-cell_vcode {{postalcodeWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">邮编</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="postalcode" value="{{postalCode}}" placeholder="{{isUsePostCode?'请输入邮编':'不支持按邮编查询'}}" disabled="{{!isUsePostCode}}" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{postalcodeWarning}}">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+      </view>
+      <view class="weui-btn-area">
+        <button class='weui-btn' type='primary' form-type='submit' loading="{{isLoading}}">查询</button>
+      </view>
+    </form>
+    <view hidden="{{hideResult}}" style="margin-top:10px">
+      <view style="padding-left:20px" wx:if="{{isRemote}}">当前查询结果为：
+        <label style="color:red">偏远</label>
+      </view>
+      <view style="padding-left:20px" wx:else>当前查询结果为：不偏远</view>
+      <view  style="padding-left:20px;margin-top:10px">注：<label style="color:red">当前查询结果仅供参考</label></view>
+    </view>
+  </view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <!-- <view class="weui-footer__links">
+          <navigator url="" class="weui-footer__link">升蓝物流</navigator>
+      </view> -->
+    <!-- <view class="weui-footer__text">Copyright © 2004-2017 升蓝物流</view> -->
+  </view>
+</view>

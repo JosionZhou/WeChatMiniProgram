@@ -1,0 +1,32 @@
+<import src="../wxParse/wxParse.wxml" />
+<view class="page">
+  <view class="page__bd">
+    <view>
+      <view wx:if="{{result.length==0}}" style="text-align:center">当前查询无结果</view>
+      <view class="weui-form-preview" wx:for="{{result}}" wx:for-item="item">
+        <view>
+          <view class="weui-form-preview__hd" style="padding:0 0">
+            <view class="weui-form-preview__item" style="background-color:#d0d0d0;padding:0 10px">
+              <view class="weui-form-preview__label fontred" style="color:black">公告人</view>
+              <view class="weui-form-preview__value_in-hd" style="font-size:20px">{{item.Creator}}</view>
+            </view>
+          </view>
+          <view class="weui-form-preview__bd centerline" hover-class="weui-form-preview__btn_active">
+            <view class="weui-form-preview__item">
+              <view>
+                  <view class="weui-article" style="padding-top:5px;text-align:left">
+                    <view class="weui-article__h3" wx:for="{{item.Content}}" wx:for-item="text">{{text}}</view>
+                  </view>
+              </view>
+              <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">发布时间</view>
+              <view class="weui-form-preview__value">{{item.Date}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

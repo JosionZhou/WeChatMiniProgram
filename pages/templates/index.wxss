@@ -1,0 +1,22 @@
+.weui-cell{
+  padding: 10px 5px 10px
+}
+.weui-cell__bd{
+  padding-left: 10px
+}
+.weui-btn{
+  padding: 6px 6px 6px 6px;
+  line-height: 1.2;
+  font-size:13px; 
+  margin-top: 0px;
+  width:50px
+}
+button[plain]{
+  border-color :#488aff;
+  color:#488aff;
+ 
+}
+.button-hover[plain]{
+  color: white;
+  background-color: #488aff
+}

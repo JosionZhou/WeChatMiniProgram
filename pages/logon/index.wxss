@@ -1,0 +1,13 @@
+.grid { display: -webkit-box; display: box; } 
+.col-0 {-webkit-box-flex:0;box-flex:0;} 
+.col-1 {-webkit-box-flex:1;box-flex:1;} 
+.top{
+  margin-top: 10px
+}
+.title { 
+ height: 30px; 
+ line-height: 30px; 
+ width: 120rpx; 
+ text-align: center; 
+ display: inline-block;
+} 

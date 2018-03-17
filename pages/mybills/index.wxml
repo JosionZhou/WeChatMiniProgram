@@ -1,0 +1,38 @@
+<view class='page'>
+  <view class='page__bd'>
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showErrorTips}}">{{errorTips}}</view>
+    <form bindsubmit='search'>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">年</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker name='year' bindchange="yearChange" value="{{yearIndex}}" range="{{years}}">
+              <view class="weui-select weui-select_in-select-after">{{years[yearIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">月</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker name='month' bindchange="monthChange" value="{{monthIndex}}" range="{{months}}">
+              <view class="weui-select weui-select_in-select-after">{{months[monthIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="weui-btn-area">
+        <button class='weui-btn' type='primary' form-type='submit' loading="{{isLoading}}">查询</button>
+      </view>
+    </form>
+  </view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <!-- <view class="weui-footer__links">
+          <navigator url="" class="weui-footer__link">升蓝物流</navigator>
+      </view> -->
+    <view class="weui-footer__text">Copyright © 2004-2017 升蓝物流</view>
+  </view>
+</view>

@@ -1,0 +1,23 @@
+<page>
+  <view class="page__bd">
+    <view class="page">
+      <view class="weui-cells weui-cells_after-title" wx:for="{{result}}">
+        <navigator url="\detail?id={{item.ObjectId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="showDetail">
+          <view class="weui-cell__bd">
+            <view>{{item.ObjectName}}</view>
+            <view class="sub_font_color" style="color:#999999;font-size:14px">{{item.ObjectNo}}</view>
+          </view>
+          <view class="weui-cell__bd">
+            <view class="weui-cell__ft weui-cell__ft_in-access price-amount-ft"></view>
+          </view>
+        </navigator>
+      </view>
+      <view class="weui-loadmore weui-loadmore_line" hidden="{{!isShowNoDataMark}}">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无更多数据</view>
+      </view>
+    </view>
+  </view>
+  <view class="weui-footer weui-footer_fixed-bottom" style="bottom:0;background-color:#f8f8f8">
+    <button type="primary" style="border-radius:0px" bindtap="add">新增</button>
+  </view>
+</page>

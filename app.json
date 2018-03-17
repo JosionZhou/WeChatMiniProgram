@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/logon/index",
+    "pages/home/index",
+    "pages/pricecalculate/index",
+    "pages/pricecalculate/error",
+    "pages/pricecalculate/priceresult",
+    "pages/index/index",
+    "pages/pricecalculate/priceDetail",
+    "pages/confirm/index",
+    "pages/deliveryrecord/index",
+    "pages/deliveryrecord/result",
+    "pages/deliveryrecord/detail",
+    "pages/remote/index",
+    "pages/mybills/index",
+    "pages/mybills/result",
+    "pages/tradebulletin/index",
+    "pages/tradebulletin/result",
+    "pages/pricelist/index",
+    "pages/changepassword/index",
+    "pages/wechatpay/index",
+    "pages/templates/index",
+    "pages/wechatpay/payhistory",
+    "pages/subaccount/index",
+    "pages/wechatbinding/index",
+    "pages/subaccount/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  }
+}

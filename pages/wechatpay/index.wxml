@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title" style="text-align:center;font-size:40px">{{amountShow}}</view>
+    <view class="page__desc" style="text-align:center">支付金额(元)</view>
+  </view>
+  <view class="page__bd">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">支付金额</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" type="digit" confirm-type="done" value="{{amountInput}}" bindinput="inputAmount" placeholder="请输入支付金额" />
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cell__ft">
+      <navigator url="payhistory" class="weui-agree__link" style="text-decoration:underline;margin-right:5px">支付记录</navigator>
+    </view>
+    <view class="weui-cells weui-cells_after-title" style="margin-top:20px">
+      <checkbox-group bindchange="checkboxChange">
+
+        <label class="weui-cell weui-check__label" checked="{{isCheckAll}}" bindtap="checkAll">
+          <checkbox class="weui-check" />
+
+          <view class="weui-cell__hd weui-check__hd_in-checkbox">
+            <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!isCheckAll}}"></icon>
+            <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{isCheckAll}}"></icon>
+          </view>
+          <view class="weui-cell__bd">{{checkAllText}}</view>
+        </label>
+        <label class="weui-cell weui-check__label" wx:for="{{items}}" wx:key="value" data-id="{{item.Id}}" bindtap="clickItem">
+          <checkbox class="weui-check" value="{{item.Id}}" checked="{{item.Selected}}" />
+
+          <view class="weui-cell__hd weui-check__hd_in-checkbox">
+            <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.Selected}}"></icon>
+            <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.Selected}}"></icon>
+          </view>
+          <view class="weui-cell__bd">{{item.ReferenceNumber}}</view>
+        </label>
+      </checkbox-group>
+    </view>
+  </view>
+  <view class="weui-footer weui-footer_fixed-bottom" style="bottom:0;background-color:#f8f8f8">
+    <button type="primary" style="border-radius:0px" bindtap="pay">支付</button>
+  </view>
+</view>

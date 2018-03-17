@@ -1,0 +1,39 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-cells weui-cells_after-title" wx:for="{{result}}">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">交易单号</view>
+        <view class="weui-cell__ft">{{item.ObjectNo}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">当前状态</view>
+        <view class="weui-cell__ft">{{item.Status}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">运费</view>
+        <view class="weui-cell__ft">{{item.FreightAmount}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">手续费</view>
+        <view class="weui-cell__ft">{{item.CommissionAmount}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">付款金额</view>
+        <view class="weui-cell__ft">{{item.TotalAmount}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">支付时间</view>
+        <view class="weui-cell__ft">{{item.Date}}</view>
+      </view>
+    </view>
+    <view>
+      <view class="weui-loadmore" hidden="{{!isShowLoading}}">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips">正在加载</view>
+      </view>
+      <view class="weui-loadmore weui-loadmore_line" hidden="{{!isShowNoDataMark}}">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无更多数据</view>
+      </view>
+    </view>
+  </view>
+</view>

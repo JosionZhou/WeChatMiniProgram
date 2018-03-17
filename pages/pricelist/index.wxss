@@ -1,0 +1,12 @@
+.weui-cells {
+  margin-top: 0px;
+  margin-bottom: 10px
+}
+button[type="default"]{
+  background-color:#488aff;
+  color:white
+}
+.button-hover[type="default"]{
+  color: white;
+  background-color: #80adff
+}

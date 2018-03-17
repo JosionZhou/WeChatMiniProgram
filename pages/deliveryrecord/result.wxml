@@ -1,0 +1,37 @@
+<view class="page">
+  <view class="page__bd">
+    <view>
+      <view wx:if="{{result.length==0}}" style="text-align:center">当前查询无结果</view>
+      <view class="weui-form-preview" wx:for="{{result}}" wx:for-item="item">
+        <view>
+          <view class="weui-form-preview__hd" style="padding:0 0">
+            <view class="weui-form-preview__item" style="background-color:#d0d0d0;padding:0 10px">
+              <view class="weui-form-preview__label fontred" style="color:black">{{item.Key}}</view>
+              <view class="weui-form-preview__value_in-hd" style="font-size:20px">{{item.subTotal}}票</view>
+            </view>
+          </view>
+          <view class="weui-form-preview__bd centerline" hover-class="weui-form-preview__btn_active" wx:for="{{item.Details}}" wx:for-item="detail" data-id="{{detail.ReceiveGoodeDetailId}}" bindtap="showDetail">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">{{detail.ReferenceNumber}}</view>
+              <view class="weui-form-preview__value">￥{{detail.Amount}}</view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">{{detail.Country}} {{detail.Type}} {{detail.Piece}}件 {{detail.WeightOfCharge}}KG</view>
+              <view class="weui-form-preview__value"></view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label">{{detail.CustomerPriceName}}</view>
+              <view class="weui-form-preview__value"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="weui-footer">
+    <!-- <view class="weui-footer__links">
+          <navigator url="" class="weui-footer__link">升蓝物流</navigator>
+      </view> -->
+    <view class="weui-footer__text">Copyright © 2004-2017 升蓝物流</view>
+  </view>
+</view>

@@ -1,0 +1,21 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell" wx:for="{{result}}">
+        <view class="weui-cell__hd">
+          <image src="../image/{{item.type}}.png" style="width:50px;height:50px"></image>
+        </view>
+        <view class="weui-cell__bd" style="word-wrap:break-word;word-break:break-all; ">
+          <view style="font-size:15px">{{item.Name}}</view>
+        </view>
+        <view class="weui-cell__ft">
+          <button class="weui-btn" plain="true" bindtap="download" data-id="{{item.Id}}" hidden="{{item.isDownloaded}}">下载</button>
+          <button class="weui-btn" plain="true" type="primary" bindtap="open" data-id="{{item.Id}}" data-path="{{item.path}}" hidden="{{!item.isDownloaded}}">打开</button>
+        </view>
+      </view>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line">
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无更多数据</view>
+    </view>
+  </view>
+</view>
