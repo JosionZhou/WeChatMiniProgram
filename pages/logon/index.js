@@ -92,6 +92,8 @@ Page({
         app.globalData.encryptedData = res.encryptedData;
         app.globalData.iv = res.iv;
         var url = app.globalData.authServerAddress + "/WeChatAuth/OAuth4";
+        // var url = app.globalData.authServerAddress + "/WeChatAuth/OAuth4_1";
+        // var url = app.globalData.authServerAddress + "/WeChatAuth/OAuth4_2";
         var success = function (res) {
           wx.hideLoading();
           app.globalData.openId = res.openid;

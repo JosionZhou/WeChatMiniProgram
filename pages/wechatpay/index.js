@@ -227,6 +227,8 @@ Page({
         SelectIdList:this.data.selectedIds.toString(),
         TotalAmount:this.data.amountShow,
         TradeType:"MAPP",
+        // TradeType: "MAPP1",
+        // TradeType: "MAPP2",
         WXPaymentCommission:false
       },
       success: function (res) {
