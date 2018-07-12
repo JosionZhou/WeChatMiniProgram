@@ -26,7 +26,7 @@ Page({
       mask:true
     })
     var data = {
-      url: app.globalData.serverAddress + '/WeChatPay/Query',
+      url: app.globalData.serverAddress + '/WeChatPay/Query?openId=1',
       method: "GET",
       success: function (res) {
         main.setData({
