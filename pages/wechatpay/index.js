@@ -6,10 +6,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    amountShow: "0.00",
-    amountInput: "0.00",
+    amountShow: 0.00,//总费用
+    amountInput: 0.00,//输入框费用
+    amount:0.00,//运费
+    amount1:0.00,//历史欠款
+    commission:0.00,//手续费
     items:[],
     isCheckAll:true,
+    isAutoShipment:false,//是否自动放货
+    isEnableAutoShipment:false,
+    autoShipmentTextColor:"#ccc",
+    isWXPaymentCommission:false,//是否收手续费
     checkAllText:"反选",
     selectedIds:[],
     selectedItems:[],
@@ -32,7 +39,11 @@ Page({
         main.setData({
           items: res.ReceiveGoodsDetailList,
           amountShow: res.TotalAmount,
-          amountInput: res.TotalAmount
+          amountInput: res.TotalAmount,
+          amount1:res.Amount1,
+          amount:res.Amount,
+          isWXPaymentCommission: res.WXPaymentCommission,
+          commission:res.Commission
         });
         wx.hideLoading();
       }
@@ -122,19 +133,23 @@ Page({
         appendStr = "0"
       }
       this.setData({
-        amountShow: this.data.amountInput + appendStr
+        amount: this.data.amountInput + appendStr
       });
     } else {
       if (this.data.amountInput != "") {
         this.setData({
-          amountShow: this.data.amountInput + ".00"
+          amount: this.data.amountInput + ".00"
         });
       } else {
         this.setData({
-          amountShow: "0.00"
+          amount: "0.00"
         });
       }
     }
+    this.setData({
+      amountShow: (parseFloat(this.data.amount) + parseFloat(this.data.amount)*3/997).toFixed(2),
+      commission: (parseFloat(this.data.amount) * 3 / 997).toFixed(2)
+    });
   },
   clickItem:function(e){
     var id = e.currentTarget.dataset.id;
@@ -154,10 +169,19 @@ Page({
         selectedItems.push(items[i]);
       }
     }
+    // if(this.data.isWXPaymentCommission){
+    //   this.setData({
+    //     commission:parseFloat((amount * 3 / 997).toFixed(2))
+    //   });
+    // }
+    var freightAmount = parseFloat((amount + this.data.amount1).toFixed(2));
+    var commission =parseFloat(this.data.isWXPaymentCommission ? (freightAmount * 3 / 997).toFixed(2) : 0);
     this.setData({
-      items:items,
-      amountShow: amount.toFixed(2),
-      amountInput: amount.toFixed(2),
+      items: items,
+      amount: freightAmount,
+      commission: commission,
+      amountShow: (freightAmount + commission).toFixed(2),
+      amountInput: (freightAmount + commission).toFixed(2),
       selectedIds:selectedIds,
       selectedItems:selectedItems
     });
@@ -171,6 +195,20 @@ Page({
         isCheckAll: false,
         checkAllText: "全选"
       })
+    }
+    if(selectedItems.length>0){
+      this.setData({
+        isEnableAutoShipment:false,
+        isAutoShipment:false,
+        autoShipmentTextColor:"#ccc"
+      });
+    }else
+    {
+      this.setData({
+        isEnableAutoShipment: true,
+        isAutoShipment: true,
+        autoShipmentTextColor: "black"
+      });
     }
   },
   checkAll:function(){
@@ -192,16 +230,39 @@ Page({
         selectedItems.push(items[i]);
       }
       text = "反选";
-    }    
+    }
+    if (selectedItems.length > 0) {
+      this.setData({
+        isEnableAutoShipment: false,
+        isAutoShipment: false,
+        autoShipmentTextColor: "#ccc"
+      });
+    } else {
+      this.setData({
+        isEnableAutoShipment: true,
+        isAutoShipment: true,
+        autoShipmentTextColor: "balck"
+      });
+    }
+    // if (this.data.isWXPaymentCommission) {
+    //   this.setData({
+    //     commission: parseFloat((amount * 3 / 997).toFixed(2))
+    //   });
+    // }
+    var freightAmount = parseFloat((amount + this.data.amount1).toFixed(2));
+    var commission = parseFloat(this.data.isWXPaymentCommission ? (freightAmount * 3 / 997).toFixed(2) : 0);
     this.setData({
       items:items,
       isCheckAll:!this.data.isCheckAll,
-      checkAllText:text,
-      amountShow: amount.toFixed(2),
-      amountInput: amount.toFixed(2),
+      checkAllText: text,
+      amount: freightAmount,
+      commission: commission,
+      amountShow: (freightAmount + commission).toFixed(2),
+      amountInput: (freightAmount + commission).toFixed(2),
       selectedIds: selectedIds,
       selectedItems: selectedItems
     });
+
   },
   pay:function(){
     var main=this;
@@ -221,7 +282,7 @@ Page({
       url: app.globalData.serverAddress + '/WeChatPay/Pay',
       data: {
         openid: app.globalData.openId,
-        Amount:this.data.amountShow,
+        Amount:this.data.amount,
         Commission:0,
         ReceiveGoodsDetailList:this.data.selectedItems,
         SelectIdList:this.data.selectedIds.toString(),
@@ -229,7 +290,8 @@ Page({
         TradeType:"MAPP",
         // TradeType: "MAPP1",
         // TradeType: "MAPP2",
-        WXPaymentCommission:false
+        WXPaymentCommission:this.data.isWXPaymentCommission,
+        IsRelease:this.data.isAutoShipment
       },
       success: function (res) {
         wx.hideLoading();
@@ -291,4 +353,17 @@ Page({
     app.NetRequest(data);
     
   },
+  tapAutoShipment:function(){
+    if(!this.data.isEnableAutoShipment)
+    {
+      this.setData({
+        isAutoShipment:false
+      });
+    }else
+    {
+      this.setData({
+        isAutoShipment: !this.data.isAutoShipment
+      });
+    }
+  }
 })

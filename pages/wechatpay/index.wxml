@@ -2,17 +2,42 @@
   <view class="page__hd">
     <view class="page__title" style="text-align:center;font-size:40px">{{amountShow}}</view>
     <view class="page__desc" style="text-align:center">支付金额(元)</view>
+    <view style="position:float" wx:if="{{isWXPaymentCommission}}">
+      <view style="float:left;width:50%;text-align:center">
+        <view>{{amount}}</view>
+        <view>运费(元)</view>
+      </view>
+      <view style="float:right;width:50%;text-align:center">
+        <view>{{commission}}</view>
+        <view>手续费(元)</view>
+      </view>
+      <view style="clear:both"></view>
+    </view>
   </view>
   <view class="page__bd">
     <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell weui-cell_input weui-cell_vcode" style="color:{{autoShipmentTextColor}}">
         <view class="weui-cell__hd">
           <view class="weui-label">支付金额</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" type="digit" confirm-type="done" value="{{amountInput}}" bindinput="inputAmount" placeholder="请输入支付金额" />
+          <input class="weui-input" type="digit" confirm-type="done" value="{{amountInput}}" bindinput="inputAmount" placeholder="请输入支付金额" disabled="{{!isEnableAutoShipment}}" />
         </view>
       </view>
+      <view class="weui-cell weui-cell_switch" disabled="{{isEnableAutoShipment}}">
+        <view class="weui-cell__bd" style="color:{{autoShipmentTextColor}}">自动放货</view>
+        <view class="weui-cell__ft">
+            <switch checked="{{isAutoShipment}}" bindtap="tapAutoShipment" />
+        </view>
+      </view> 
+      <navigator class="weui-cell weui-cell_input weui-cell_vcode" url="./payexplain">
+          <view class="weui-cell__bd">
+              支付说明
+          </view>
+          <view class="weui-cell__ft">
+            <view class="weui-select"></view>
+        </view>
+      </navigator>
     </view>
 
     <view class="weui-cell__ft">
