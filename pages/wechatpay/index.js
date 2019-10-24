@@ -11,6 +11,7 @@ Page({
     amount:0.00,//运费
     amount1:0.00,//历史欠款
     commission:0.00,//手续费
+    wxPaymentCommissionRate:0.00,//手续费率
     items:[],
     isCheckAll:true,
     isAutoShipment:false,//是否自动放货
@@ -43,9 +44,11 @@ Page({
           amount1:res.Amount1,
           amount:res.Amount,
           isWXPaymentCommission: res.WXPaymentCommission,
-          commission:res.Commission
+          commission:res.Commission,
+          wxPaymentCommissionRate:res.WXPaymentCommissionRate
         });
         wx.hideLoading();
+        console.log(res);
       }
     }
     app.NetRequest(data);
@@ -147,8 +150,8 @@ Page({
       }
     }
     this.setData({
-      amountShow: (parseFloat(this.data.amount) + parseFloat(this.data.amount)*3/997).toFixed(2),
-      commission: (parseFloat(this.data.amount) * 3 / 997).toFixed(2)
+      amountShow: (parseFloat(this.data.amount) + parseFloat(this.data.amount)* this.data.wxPaymentCommissionRate).toFixed(2),
+      commission: (parseFloat(this.data.amount) * this.data.wxPaymentCommissionRate).toFixed(2)
     });
   },
   clickItem:function(e){
@@ -169,13 +172,8 @@ Page({
         selectedItems.push(items[i]);
       }
     }
-    // if(this.data.isWXPaymentCommission){
-    //   this.setData({
-    //     commission:parseFloat((amount * 3 / 997).toFixed(2))
-    //   });
-    // }
     var freightAmount = parseFloat((amount + this.data.amount1).toFixed(2));
-    var commission =parseFloat(this.data.isWXPaymentCommission ? (freightAmount * 3 / 997).toFixed(2) : 0);
+    var commission = parseFloat(this.data.isWXPaymentCommission ? (freightAmount * this.data.wxPaymentCommissionRate).toFixed(2) : 0);
     this.setData({
       items: items,
       amount: freightAmount,
@@ -244,13 +242,8 @@ Page({
         autoShipmentTextColor: "balck"
       });
     }
-    // if (this.data.isWXPaymentCommission) {
-    //   this.setData({
-    //     commission: parseFloat((amount * 3 / 997).toFixed(2))
-    //   });
-    // }
     var freightAmount = parseFloat((amount + this.data.amount1).toFixed(2));
-    var commission = parseFloat(this.data.isWXPaymentCommission ? (freightAmount * 3 / 997).toFixed(2) : 0);
+    var commission = parseFloat(this.data.isWXPaymentCommission ? (freightAmount * this.data.wxPaymentCommissionRate).toFixed(2) : 0);
     this.setData({
       items:items,
       isCheckAll:!this.data.isCheckAll,
