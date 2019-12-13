@@ -37,18 +37,24 @@ Page({
       url: app.globalData.serverAddress + '/WeChatPay/Query?openId=1',
       method: "GET",
       success: function (res) {
+        var items = res.ReceiveGoodsDetailList;
+        var selectedIds = new Array();
+        for (var i = 0; i < items.length; i++) {
+          selectedIds.push(items[i].Id);
+        }
         main.setData({
-          items: res.ReceiveGoodsDetailList,
+          items: items,
           amountShow: res.TotalAmount,
           amountInput: res.TotalAmount,
           amount1:res.Amount1,
           amount:res.Amount,
           isWXPaymentCommission: res.WXPaymentCommission,
           commission:res.Commission,
-          wxPaymentCommissionRate:res.WXPaymentCommissionRate
+          wxPaymentCommissionRate:res.WXPaymentCommissionRate,
+          selectedItems: items,
+          selectedIds: selectedIds
         });
         wx.hideLoading();
-        console.log(res);
       }
     }
     app.NetRequest(data);
