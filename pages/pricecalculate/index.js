@@ -7,6 +7,8 @@ Page({
    */
   data: {
     countryList:{},
+    ruleList:{},
+    selectedRuleIds:[],
     filtCountryList:{},
     modeofTransportList:{},
     modeofTransportNameList: {},
@@ -84,9 +86,23 @@ Page({
         app.volumes=res
       }
     }
+    var data3 = {
+      url: app.globalData.serverAddress + '/Common/GetRuleList',
+      method: "GET",
+      success: function (res) {
+        wx.hideLoading();
+        for(var i=0;i<res.length;i++){
+          res.Checked=false;
+        }
+        main.setData({
+          ruleList: res
+        });
+      }
+    }
     app.NetRequest(data);
     app.NetRequest(data1);
     app.NetRequest(data2);
+    app.NetRequest(data3);
     // wx.request({
     //   url: app.globalData.serverAddress + '/PriceCalculate/ModeOfTransportInfoList',
     //   success:function(res){
@@ -213,7 +229,8 @@ Page({
         ActualWeight: e.detail.value.weight,
         VolumeWeight: e.detail.value.volumeweight,
         Volumetric: main.data.volumeId,
-        PostalCode: e.detail.value.postalcode
+        PostalCode: e.detail.value.postalcode,
+        SelectedAttributeIdList:main.data.selectedRuleIds
       },
       success: function (res) {
         main.setData({
@@ -299,6 +316,24 @@ Page({
         showErrorTips: false
       });
     }, 2000);
+  },
+  ruleChange:function(e){
+    var ruleList = this.data.ruleList, values = e.detail.value;
+    for (var i = 0, lenI = ruleList.length; i < lenI; ++i) {
+      ruleList[i].Checked = false;
+
+      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (ruleList[i].Id == values[j]) {
+          ruleList[i].Checked = true;
+          break;
+        }
+      }
+    }
+
+    this.setData({
+      ruleList: ruleList,
+      selectedRuleIds:values.toString()
+    });
   }
 })
 function hideCountryList(res){
