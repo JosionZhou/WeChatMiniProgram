@@ -230,7 +230,7 @@ Page({
         VolumeWeight: e.detail.value.volumeweight,
         Volumetric: main.data.volumeId,
         PostalCode: e.detail.value.postalcode,
-        SelectedAttributeIdList:main.data.selectedRuleIds
+        SelectRuleIds:main.data.selectedRuleIds
       },
       success: function (res) {
         main.setData({
@@ -332,7 +332,7 @@ Page({
 
     this.setData({
       ruleList: ruleList,
-      selectedRuleIds:values.toString()
+      selectedRuleIds:values
     });
   }
 })
