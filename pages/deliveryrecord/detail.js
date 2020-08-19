@@ -135,6 +135,7 @@ Page({
                 wx.showModal({
                   title: '操作失败',
                   content: '错误消息：'+res.Message,
+                  showCancel:false
                 })
               }
             },
