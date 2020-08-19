@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id:null,
     item:null,
     tabs: ["基本信息", "规格", "轨迹信息","费用明细","待跟进问题"],
     activeIndex: 0,
@@ -34,6 +35,7 @@ Page({
       mask:true
     });
      var id = options.id
+     this.data.id=id;
      var main=this;
      var data = {
        url: app.globalData.serverAddress + '/DeliveryRecord/Detail',
@@ -104,5 +106,50 @@ Page({
       sliderOffset: e.currentTarget.offsetLeft,
       activeIndex: e.currentTarget.id
     });
+  },
+  addProblem:function(){
+    var main=this;
+    wx.showModal({
+      title: '警告',
+      content: '确定暂扣货物吗？\n (警告：货物暂扣后，将暂停所有操作流程，由于此操作造成的时效问题，一律由客户自身承担)',
+      success:function(res){
+        if (res.confirm) {
+          wx.showLoading({
+            title: '请稍后',
+          });
+          var data = {
+            url:app.globalData.serverAddress + '/Problem/AddProblem1',
+            type:"POST",
+            data:{
+              rgdId:parseInt(main.data.id)
+            },
+            success:function(res){
+              wx.hideLoading();
+              if(res.Success){
+                wx.showModal({
+                  title: '提示',
+                  content: '操作成功！',
+                  showCancel:false
+                })
+              }else{
+                wx.showModal({
+                  title: '操作失败',
+                  content: '错误消息：'+res.Message,
+                })
+              }
+            },
+            fail:function(res){
+              wx.hideLoading();
+              wx.showModal({
+                title: '操作失败',
+                content: res.data.message + "：" + res.data.exceptionMessage,
+                showCancel: false
+              })
+            }
+          }
+          app.NetRequest(data);
+        }
+      }
+    })
   }
 })

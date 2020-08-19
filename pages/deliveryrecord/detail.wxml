@@ -130,4 +130,7 @@
       </view>
     </view>
   </view>
+  <button class="weui-btn btnAdd" type="primary" bindtap="addProblem">
+    <span>扣</span>
+  </button>
 </view>
