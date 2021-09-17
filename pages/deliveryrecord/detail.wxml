@@ -121,8 +121,9 @@
       <view class="weui-tab__content" hidden="{{activeIndex != 4}}">
           <view class="weui-cells weui-cells_after-title" wx:for="{{item.Problems}}" wx:for-item="problem">
             <view class="weui-cell">
-              <view class="weui-cell__bd">{{problem.Remark}}</view>
-              <view class="weui-cell__ft">{{problem.StatusName}}</view>
+              <view class="weui-cell__bd">{{problem.Name}}</view>
+              <view class="weui-cell__ft" style="color:red" wx:if="{{problem.Status==0}}">待跟进</view>
+              <view class="weui-cell__ft" style="color:green" wx:else>已处理</view>
             </view>
           </view>
         </view>
