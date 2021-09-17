@@ -4,8 +4,8 @@
       <view class="weui-cells weui-cells_after-title" wx:for="{{result}}">
         <navigator url="\detail?id={{item.ObjectId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="showDetail">
           <view class="weui-cell__bd">
-            <view>{{item.ObjectName}}</view>
-            <view class="sub_font_color" style="color:#999999;font-size:14px">{{item.ObjectNo}}</view>
+            <view>{{item.ContactName}}</view>
+            <view class="sub_font_color" style="color:#999999;font-size:14px">{{item.MobilePhone}}</view>
           </view>
           <view class="weui-cell__bd">
             <view class="weui-cell__ft weui-cell__ft_in-access price-amount-ft"></view>

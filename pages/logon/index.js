@@ -243,7 +243,7 @@ Page({
       },
       success: function (res) {
         //登录验证返回true
-        if (res.data) {
+        if (res.data.success) {
           main.getAuthInfo();
         }
         else {
@@ -251,7 +251,7 @@ Page({
           wx.showModal({
             title: '登录失败',
             showCancel: false,
-            content: '用户名或密码不正确',
+            content: res.data.errMsg,
           })
         }
       },

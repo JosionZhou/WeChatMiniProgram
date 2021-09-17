@@ -35,8 +35,8 @@ Page({
           wx.hideLoading();
           main.setData({
             subaccount:res,
-            userName:res.ObjectName,
-            account:res.ObjectNo,
+            contactName:res.ContactName,
+            mobilePhone:res.MobilePhone,
             discount:res.Discount
           });
         }
@@ -122,11 +122,11 @@ Page({
     app.NetRequest(data);
   },
   save: function (e) {
-    var userName = e.detail.value.userName.trim();
-    var account = e.detail.value.account;
+    var contactName = e.detail.value.contactName.trim();
+    var mobilePhone = e.detail.value.mobilePhone;
     var password = e.detail.value.password;
     var discount = e.detail.value.discount
-    if (userName.length < 2) {
+    if (contactName.length < 2) {
       this.setData({
         userNameWarning: true,
         errorTips: "名称不能为空并且长度不能小于2"
@@ -134,7 +134,7 @@ Page({
       this.showErrorTips();
       return;
     }
-    var checkMsg = this.checkAccount(account);
+    var checkMsg = this.checkAccount(mobilePhone);
     if (checkMsg.length > 0) {
       this.setData({
         accountWarning: true,
@@ -170,8 +170,8 @@ Page({
       }
     }
     var data = {
-      ObjectName: userName,
-      ObjectNo: account,
+      ContactName: contactName,
+      MobilePhone: mobilePhone,
       Password: password,
       Discount: discount
     }
@@ -182,8 +182,8 @@ Page({
         this.data.subaccount.Password1=password;
       else
         this.data.subaccount.Password1 = "";
-      this.data.subaccount.ObjectName=userName;
-      this.data.subaccount.ObjectNo=account;
+      this.data.subaccount.ContactName=contactName;
+      this.data.subaccount.MobilePhone=mobilePhone;
       this.data.subaccount.Discount=discount;
       this.doSave(this.data.subaccount, "Edit");
     }
@@ -236,10 +236,10 @@ Page({
   },
   checkAccount: function (account) {
     if (account.trim().length == 0) {
-      return "账号不能为空";
+      return "手机号码不能为空";
     }
-    if (account.length < 2 || account.length > 8) {
-      return "账号长度要求大于2小于8";
+    if (account.length != 11 ) {
+      return "手机号码长度必须为11位";
     }
     var reg1 = /[0-9]+/g;
     var reg2 = /[a-zA-Z]+/g;
