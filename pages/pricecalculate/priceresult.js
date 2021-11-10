@@ -9,7 +9,9 @@ Page({
     hideDetail:true,
     result:null,
     indexSet:[],
-    isButton:false
+    isButton:false,
+    tabs:[],
+    activeIndex:0
   },
 
   /**
@@ -17,8 +19,34 @@ Page({
    */
   onLoad: function (options) {
     var data = app.priceResult;
+    var tabs = new Array();
+    data.forEach(element => {
+      var tData=null;
+      if(tabs.length>0){
+        tData=tabs.find(p=>p.PriceType==element.PriceType);
+      }
+      if(tData==null){
+        tData = new Object();
+        tData.PriceList = new Array();
+        tData.PriceType=element.PriceType;
+        tabs.push(tData);
+      }
+      tData.PriceList.push(element);
+    });
     this.setData({
-      result: data
+      result: data,
+      tabs:tabs
+    });
+    var that=this;
+    wx.getSystemInfo({
+      success: function (res) {
+        var sliderWidth = res.windowWidth / that.data.tabs.length;
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex,
+          width: sliderWidth
+        });
+      }
     });
     wx.hideLoading();
   },
@@ -73,7 +101,7 @@ Page({
   // },
   clickItem:function(event){
     var index = event.currentTarget.dataset.index;
-    var result = this.data.result;
+    var result = this.data.tabs[this.data.activeIndex].PriceList;
     app.currentPriceItem=result[index];
     wx.navigateTo({
       url: 'priceDetail',
@@ -86,5 +114,11 @@ Page({
     app.commonRemark = data.CommonRemark.split("\r\n");
     app.countryRemark = data.CountryRemark.split("\r\n");
     
+  },
+  tabClick:function(e){
+    this.setData({
+    sliderOffset: e.currentTarget.offsetLeft,
+    activeIndex: e.currentTarget.id
+  });
   }
 })
