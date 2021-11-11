@@ -19,23 +19,34 @@ Page({
    */
   onLoad: function (options) {
     var data = app.priceResult;
-    var tabs = new Array();
+    var tempData = new Array();
+    var emptyObj = new Object();
+    tempData.push(emptyObj);
     data.forEach(element => {
       var tData=null;
-      if(tabs.length>0){
-        tData=tabs.find(p=>p.PriceType==element.PriceType);
+      if(tempData.length>0){
+        tData=tempData.find(p=>p.PriceType==element.PriceType);
       }
       if(tData==null){
         tData = new Object();
         tData.PriceList = new Array();
         tData.PriceType=element.PriceType;
-        tabs.push(tData);
+        //若存在出口价，则把出口价显示在第一个选项卡
+        if(element.PriceType=="出口价")
+        {
+          tempData[0]=tData;
+        }else{
+          tempData.push(tData);
+        }
       }
       tData.PriceList.push(element);
     });
+    if(tempData[0]==emptyObj){
+      tempData.splice(0,1);
+    }
     this.setData({
       result: data,
-      tabs:tabs
+      tabs:tempData
     });
     var that=this;
     wx.getSystemInfo({
