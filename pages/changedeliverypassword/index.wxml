@@ -1,0 +1,46 @@
+<view class="page">
+<view class="weui-toptips weui-toptips_warn" wx:if="{{showErrorTips}}">{{errorTips}}</view>
+  <form bindsubmit='changepassword'>
+    <view class="page__bd">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input {{opwdWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">旧交货密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="oldPassword" password="true" placeholder="请输入旧交货密码" value="{{oldPassword}}" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{opwdWarning}}">
+                <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input {{npwdWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">新交货密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="newPassword" password="true" placeholder="请输入新交货密码" value="{{newPassword}}" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{npwdWarning}}">
+              <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input {{npwdWarning1==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">确认交货密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="newPassword1" password="true" placeholder="请再次输入新交货密码" value="{{newPassword1}}" />
+          </view>
+          <view class="weui-cell__ft" wx:if="{{npwdWarning1}}">
+              <icon type="warn" size="23" color="#E64340"></icon>
+          </view>
+        </view>
+      </view>
+      <view style="padding:5px">新交货密码要求<label style="color:red">6位</label>并且是<label style="color:red">数字</label>的组合</view>
+      <view class="weui-btn-area">
+        <button class='weui-btn' type='primary' form-type='submit' loading='{{isLoading}}'>确认</button>
+      </view>
+    </view>
+  </form>
+</view>

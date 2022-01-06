@@ -24,7 +24,8 @@
     "pages/subaccount/index",
     "pages/wechatbinding/index",
     "pages/subaccount/detail",
-    "pages/wechatpay/payexplain"
+    "pages/wechatpay/payexplain",
+    "pages/changedeliverypassword/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

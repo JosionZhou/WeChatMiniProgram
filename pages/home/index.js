@@ -68,7 +68,13 @@ Page({
         url: '/wechatbinding/index',
         img: 'member-8',
         isFraternity: false
-      },
+      }, 
+      {
+        name: '修改交货密码',
+        url: '/changedeliverypassword/index',
+        img: 'member-11',
+        isFraternity: true
+      }
       // {
       //   name: '退出登录',
       //   url: '/logout/index',
