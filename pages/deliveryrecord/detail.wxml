@@ -58,7 +58,7 @@
               <view class="weui-cell__ft">{{item.ReceiveGoodsNo}}</view>
             </view>
             <view class="weui-cell">
-              <view class="weui-cell__bd">计价时间</view>
+              <view class="weui-cell__bd">日期</view>
               <view class="weui-cell__ft">{{item.Date}}</view>
             </view>
           </view>
