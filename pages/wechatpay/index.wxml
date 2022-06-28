@@ -24,6 +24,16 @@
           <input class="weui-input" type="digit" confirm-type="done" value="{{amountInput}}" bindinput="inputAmount" placeholder="请输入支付金额" disabled="{{!isEnableAutoShipment}}" />
         </view>
       </view>
+      <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">产品类型</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker name='productType' bindchange="productTypeChange" value="{{productTypeIndex}}" range="{{productTypeNames}}">
+              <view class="weui-select weui-select_in-select-after">{{productTypeNames[productTypeIndex]}}</view>
+            </picker>
+          </view>
+        </view>
       <view class="weui-cell weui-cell_switch" disabled="{{isEnableAutoShipment}}">
         <view class="weui-cell__bd" style="color:{{autoShipmentTextColor}}">自动放货</view>
         <view class="weui-cell__ft">

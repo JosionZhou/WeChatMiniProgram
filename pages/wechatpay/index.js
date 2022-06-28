@@ -21,7 +21,10 @@ Page({
     checkAllText:"反选",
     selectedIds:[],
     selectedItems:[],
-    tradeNo:""
+    tradeNo:"",
+    productTypes:null,
+    productTypeIndex:0,
+    productTypeNames:[]
   },
 
   /**
@@ -57,7 +60,20 @@ Page({
         wx.hideLoading();
       }
     }
+
+    let data1 = {
+      url:app.globalData.serverAddress+'/WeChatPay/GetPrductTypes',
+      method:"GET",
+      success:function(res){
+        let productTypeNames=res.map(p=>p.Value);
+        main.setData({
+          productTypes:res,
+          productTypeNames:productTypeNames
+        });
+      }
+    }
     app.NetRequest(data);
+    app.NetRequest(data1);
   },
 
   /**
@@ -277,6 +293,7 @@ Page({
       title: '请稍后',
       mask:true
     });
+    let productType = this.data.productTypes[this.data.productTypeIndex].Key
     var data = {
       url: app.globalData.serverAddress + '/WeChatPay/Pay',
       data: {
@@ -290,7 +307,8 @@ Page({
         // TradeType: "MAPP1",
         // TradeType: "MAPP2",
         WXPaymentCommission:this.data.isWXPaymentCommission,
-        IsRelease:this.data.isAutoShipment
+        IsRelease:this.data.isAutoShipment,
+        ProductType:productType
       },
       success: function (res) {
         wx.hideLoading();
@@ -364,5 +382,11 @@ Page({
         isAutoShipment: !this.data.isAutoShipment
       });
     }
+  },
+  productTypeChange:function(e){
+    let that = this;
+    this.setData({
+      productTypeIndex:e.detail.value
+    });
   }
 })
