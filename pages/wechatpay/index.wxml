@@ -1,20 +1,31 @@
 <view class="page">
+  <view style="font-size: 12px;padding: 3px;background-color: wheat;" wx:if="{{cid!=1}}">
+    当前正在支付外币：{{payMessage}}
+  </view>
   <view class="page__hd">
     <view class="page__title" style="text-align:center;font-size:40px">{{amountShow}}</view>
-    <view class="page__desc" style="text-align:center">支付金额(元)</view>
+    <view class="page__desc" style="text-align:center">支付金额(RMB/元)</view>
     <view style="position:float" wx:if="{{isWXPaymentCommission}}">
       <view style="float:left;width:50%;text-align:center">
         <view>{{amount}}</view>
-        <view>运费(元)</view>
+        <view>运费(RMB/元)</view>
       </view>
       <view style="float:right;width:50%;text-align:center">
         <view>{{commission}}</view>
-        <view>手续费(元)</view>
+        <view>手续费(RMB/元)</view>
       </view>
       <view style="clear:both"></view>
     </view>
   </view>
   <view class="page__bd">
+    <view style="font-size: 14px;color: red;">存在其他币种欠款：
+      <span wx:for="{{otherCurrencyAmounts}}">
+        {{item.Amount}}({{item.Name}})；
+      </span>
+      <view class="weui-cell__ft">
+        <navigator bindtap="payOtherAmount" class="weui-agree__link" style="text-decoration:underline;margin-right:5px">点击这里支付</navigator>
+      </view>
+    </view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input weui-cell_vcode" style="color:{{autoShipmentTextColor}}">
         <view class="weui-cell__hd">
@@ -23,29 +34,32 @@
         <view class="weui-cell__bd">
           <input class="weui-input" type="digit" confirm-type="done" value="{{amountInput}}" bindinput="inputAmount" placeholder="请输入支付金额" disabled="{{!isEnableAutoShipment}}" />
         </view>
+        <view class="weui-cell__ft">
+          <view class="weui-label" style="padding-right:10px;">{{currencyName}}</view>
+        </view>
       </view>
       <view class="weui-cell weui-cell_select">
-          <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">产品类型</view>
-          </view>
-          <view class="weui-cell__bd">
-            <picker name='productType' bindchange="productTypeChange" value="{{productTypeIndex}}" range="{{productTypeNames}}">
-              <view class="weui-select weui-select_in-select-after">{{productTypeNames[productTypeIndex]}}</view>
-            </picker>
-          </view>
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+          <view class="weui-label">产品类型</view>
         </view>
+        <view class="weui-cell__bd">
+          <picker name='productType' bindchange="productTypeChange" value="{{productTypeIndex}}" range="{{productTypeNames}}">
+            <view class="weui-select weui-select_in-select-after">{{productTypeNames[productTypeIndex]}}</view>
+          </picker>
+        </view>
+      </view>
       <view class="weui-cell weui-cell_switch" disabled="{{isEnableAutoShipment}}">
         <view class="weui-cell__bd" style="color:{{autoShipmentTextColor}}">自动放货</view>
         <view class="weui-cell__ft">
-            <switch checked="{{isAutoShipment}}" bindtap="tapAutoShipment" />
+          <switch checked="{{isAutoShipment}}" bindtap="tapAutoShipment" />
         </view>
-      </view> 
+      </view>
       <navigator class="weui-cell weui-cell_input weui-cell_vcode" url="./payexplain">
-          <view class="weui-cell__bd">
-              支付说明
-          </view>
-          <view class="weui-cell__ft">
-            <view class="weui-select"></view>
+        <view class="weui-cell__bd">
+          支付说明
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-select"></view>
         </view>
       </navigator>
     </view>

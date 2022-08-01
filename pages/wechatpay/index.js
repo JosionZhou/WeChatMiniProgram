@@ -1,31 +1,39 @@
 // pages/wechatpay/index.js
-var app=getApp()
+var app=getApp();
+const initData={
+  amountShow: 0.00,//总费用
+  amountInput: 0.00,//输入框费用
+  amount:0.00,//运费
+  amount1:0.00,//历史欠款
+  commission:0.00,//手续费
+  wxPaymentCommissionRate:0.00,//手续费率
+  items:[],
+  isCheckAll:true,
+  isAutoShipment:false,//是否自动放货
+  isEnableAutoShipment:false,
+  autoShipmentTextColor:"#ccc",
+  isWXPaymentCommission:false,//是否收手续费
+  checkAllText:"反选",
+  selectedIds:[],
+  selectedItems:[],
+  tradeNo:"",
+  productTypes:null,
+  productTypeIndex:0,
+  productTypeNames:[],
+  originalCurrencyId:null,//原币id
+  originalAmount:0.00,//原币金额
+  originalCurrencyRate:0.00,//原币汇率
+  payMessage:"",
+  otherCurrencyAmounts:[],
+  cid:1,
+  currencyName:""
+}
 Page({
 
   /**
    * 页面的初始数据
    */
-  data: {
-    amountShow: 0.00,//总费用
-    amountInput: 0.00,//输入框费用
-    amount:0.00,//运费
-    amount1:0.00,//历史欠款
-    commission:0.00,//手续费
-    wxPaymentCommissionRate:0.00,//手续费率
-    items:[],
-    isCheckAll:true,
-    isAutoShipment:false,//是否自动放货
-    isEnableAutoShipment:false,
-    autoShipmentTextColor:"#ccc",
-    isWXPaymentCommission:false,//是否收手续费
-    checkAllText:"反选",
-    selectedIds:[],
-    selectedItems:[],
-    tradeNo:"",
-    productTypes:null,
-    productTypeIndex:0,
-    productTypeNames:[]
-  },
+  data: initData,
 
   /**
    * 生命周期函数--监听页面加载
@@ -37,7 +45,7 @@ Page({
       mask:true
     })
     var data = {
-      url: app.globalData.serverAddress + '/WeChatPay/Query?openId=1',
+      url: app.globalData.serverAddress + '/WeChatPay/Query?openId=1&cid='+main.data.cid,
       method: "GET",
       success: function (res) {
         var items = res.ReceiveGoodsDetailList;
@@ -48,16 +56,22 @@ Page({
         main.setData({
           items: items,
           amountShow: res.TotalAmount,
-          amountInput: res.TotalAmount,
+          amountInput: res.OriginalAmount,
           amount1:res.Amount1,
           amount:res.Amount,
           isWXPaymentCommission: res.WXPaymentCommission,
           commission:res.Commission,
           wxPaymentCommissionRate:res.WXPaymentCommissionRate,
           selectedItems: items,
-          selectedIds: selectedIds
+          selectedIds: selectedIds,
+          originalCurrencyId:res.OriginalCurrencyId,
+          originalCurrencyRate:res.OriginalCurrencyRate,
+          originalAmount:res.OriginalAmount,
+          payMessage:res.PayMessage,
+          currencyName:res.CurrencyName==null?"人民币":res.CurrencyName
         });
         wx.hideLoading();
+        main.getAmountSummary(res.OriginalCurrencyId);
       }
     }
 
@@ -171,9 +185,13 @@ Page({
         });
       }
     }
+    amount =parseFloat(parseFloat(parseFloat(this.data.amount)*this.data.originalCurrencyRate).toFixed(2));
+    let commissionRate = (amount > 0 &&(amount* this.data.wxPaymentCommissionRate).toFixed(2)==0)?0.01:(amount* this.data.wxPaymentCommissionRate).toFixed(2);
+    console.log("amount:",amount)
     this.setData({
-      amountShow: (parseFloat(this.data.amount) + parseFloat(this.data.amount)* this.data.wxPaymentCommissionRate).toFixed(2),
-      commission: (parseFloat(this.data.amount) * this.data.wxPaymentCommissionRate).toFixed(2)
+      amountShow: (amount + parseFloat(commissionRate)).toFixed(2),
+      commission: parseFloat(commissionRate),
+      amount:amount
     });
   },
   clickItem:function(e){
@@ -308,7 +326,10 @@ Page({
         // TradeType: "MAPP2",
         WXPaymentCommission:this.data.isWXPaymentCommission,
         IsRelease:this.data.isAutoShipment,
-        ProductType:productType
+        ProductType:productType,
+        OriginalCurrencyId:this.data.originalCurrencyId,
+        OriginalAmount:this.data.amountInput,
+        OriginalCurrencyRate:this.data.originalCurrencyRate
       },
       success: function (res) {
         wx.hideLoading();
@@ -387,6 +408,42 @@ Page({
     let that = this;
     this.setData({
       productTypeIndex:e.detail.value
+    });
+  },
+  getAmountSummary(originalCurrencyId){
+    let that=this;
+    wx.showLoading({
+      title: '请稍后',
+    })
+    var data = {
+      url: app.globalData.serverAddress + '/UserHome/Load',
+      method: "GET",
+      success: function (res) {
+        wx.hideLoading();
+        console.log(res);
+        let otherCurrencyAmounts = res.CurrencyAmount.filter(p=>{
+          return p.Id!=originalCurrencyId;
+        });
+        that.setData({
+          otherCurrencyAmounts:otherCurrencyAmounts
+        });
+      }
+    }
+    app.NetRequest(data);
+  },
+  payOtherAmount(){
+    let that = this;
+    let items = this.data.otherCurrencyAmounts.map(p=>p.Name+"："+p.Amount)
+    wx.showActionSheet({
+        itemList: items,
+        success: function(res) {
+            if (!res.cancel) {
+                let item = that.data.otherCurrencyAmounts[res.tapIndex];
+                initData.cid=item.Id;
+                that.setData(initData);
+                that.onLoad();
+            }
+        }
     });
   }
 })
