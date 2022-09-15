@@ -27,15 +27,18 @@
       </view>
     </view>
     <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell"  wx:if="{{cid!=1}}">
+        当前金额将优先转换外币：{{currencyName}}
+      </view>
       <view class="weui-cell weui-cell_input weui-cell_vcode" style="color:{{autoShipmentTextColor}}">
         <view class="weui-cell__hd">
-          <view class="weui-label">支付金额</view>
+          <view class="weui-label">运费</view>
         </view>
         <view class="weui-cell__bd">
           <input class="weui-input" type="digit" confirm-type="done" value="{{amountInput}}" bindinput="inputAmount" placeholder="请输入支付金额" disabled="{{!isEnableAutoShipment}}" />
         </view>
         <view class="weui-cell__ft">
-          <view class="weui-label" style="padding-right:10px;">{{currencyName}}</view>
+          <view class="weui-label" style="padding-right:10px;">人民币</view>
         </view>
       </view>
       <view class="weui-cell weui-cell_select">

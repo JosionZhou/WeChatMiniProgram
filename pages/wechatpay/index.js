@@ -50,13 +50,27 @@ Page({
       success: function (res) {
         var items = res.ReceiveGoodsDetailList;
         var selectedIds = new Array();
-        for (var i = 0; i < items.length; i++) {
-          selectedIds.push(items[i].Id);
+        //支付外币时，默认不勾选单号
+        if(main.data.cid!=1)
+        {
+          for(let i=0;i<items.length;i++){
+            items[i].Selected=false;
+          }
+          main.setData({
+            checkAllText:"全选",
+            isCheckAll:false
+          });
+          main.enableAutoShipment();
+        }
+        else{
+          for (var i = 0; i < items.length; i++) {
+            selectedIds.push(items[i].Id);
+          }
         }
         main.setData({
           items: items,
           amountShow: res.TotalAmount,
-          amountInput: res.OriginalAmount,
+          amountInput: res.Amount,
           amount1:res.Amount1,
           amount:res.Amount,
           isWXPaymentCommission: res.WXPaymentCommission,
@@ -185,7 +199,7 @@ Page({
         });
       }
     }
-    amount =parseFloat(parseFloat(parseFloat(this.data.amount)*this.data.originalCurrencyRate).toFixed(2));
+    amount =parseFloat(this.data.amount);
     let commissionRate = (amount > 0 &&(amount* this.data.wxPaymentCommissionRate).toFixed(2)==0)?0.01:(amount* this.data.wxPaymentCommissionRate).toFixed(2);
     console.log("amount:",amount)
     this.setData({
@@ -242,12 +256,15 @@ Page({
       });
     }else
     {
-      this.setData({
-        isEnableAutoShipment: true,
-        isAutoShipment: true,
-        autoShipmentTextColor: "black"
-      });
+      this.enableAutoShipment();
     }
+  },
+  enableAutoShipment:function(){
+    this.setData({
+      isEnableAutoShipment: true,
+      isAutoShipment: true,
+      autoShipmentTextColor: "black"
+    });
   },
   checkAll:function(){
     var items = this.data.items;
