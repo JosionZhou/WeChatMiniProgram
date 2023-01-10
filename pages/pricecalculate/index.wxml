@@ -126,10 +126,9 @@
       <view class="weui-btn-area">
         <button class='weui-btn' type='primary' form-type='submit' loading="{{isLoading}}">查询</button>
       </view>
-
-
-
-
+      <view class="tips">
+        501KG以上输入邮编有美国高端空卡价格，敬请参选(点击'更多信息'可进入完整模式然后输入邮编)
+      </view>
     </form>
   </view>
   <!-- <view class="weui-footer">
