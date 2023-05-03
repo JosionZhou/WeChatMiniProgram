@@ -32,7 +32,8 @@ Page({
     volumeId:null,
     showErrorTips:false,
     errorTips:"",
-    isLoading:false
+    isLoading:false,
+    piece:1
   },
 
   /**o
@@ -230,7 +231,8 @@ Page({
         VolumeWeight: e.detail.value.volumeweight,
         Volumetric: main.data.volumeId,
         PostalCode: e.detail.value.postalcode,
-        SelectRuleIds:main.data.selectedRuleIds
+        SelectRuleIds:main.data.selectedRuleIds,
+        Sizes:main.data.sizes
       },
       success: function (res) {
         main.setData({
@@ -334,6 +336,33 @@ Page({
       ruleList: ruleList,
       selectedRuleIds:values
     });
+  },
+  
+  showSizes: function () {
+    let that = this;
+    if (that.data.piece > 0) {
+      wx.navigateTo({
+        url: './sizes/index',
+        events: {
+          submitSizes: function (data) {
+            that.data.sizes = data.sizes;
+            console.log(data.sizes);
+          }
+        },
+        success: function (res) {
+          res.eventChannel.emit("editSizes", {
+            sizes: that.data.sizes,
+            pieces: that.data.piece
+          });
+        }
+      });
+    }else{
+      wx.showModal({
+        showCancel:false,
+        title:"提示",
+        content:"件数必须大于0！",
+      });
+    }
   }
 })
 function hideCountryList(res){

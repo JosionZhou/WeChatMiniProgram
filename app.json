@@ -5,6 +5,7 @@
     "pages/pricecalculate/index",
     "pages/pricecalculate/error",
     "pages/pricecalculate/priceresult",
+    "pages/pricecalculate/sizes/index",
     "pages/index/index",
     "pages/pricecalculate/priceDetail",
     "pages/confirm/index",
