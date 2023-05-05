@@ -33,7 +33,8 @@ Page({
     showErrorTips:false,
     errorTips:"",
     isLoading:false,
-    piece:1
+    piece:1,
+    sizes:[]
   },
 
   /**o
@@ -214,6 +215,15 @@ Page({
       this.setData({
         weightWarning: false
       });
+    }
+    //如果填写了尺寸规格，则必须跟件数匹配
+    if(this.data.sizes.length>0 && this.data.piece!=this.data.sizes.length){
+      wx.showModal({
+        showCancel:false,
+        title:"提示",
+        content:"规格与件数不一致，请确认每件规格！"
+      });
+      return;
     }
     this.setData({
       isLoading:true
