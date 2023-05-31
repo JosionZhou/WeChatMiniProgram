@@ -34,7 +34,9 @@ Page({
     errorTips:"",
     isLoading:false,
     piece:1,
-    sizes:[]
+    sizes:[],
+    isEditSize:false,
+    sizeText:"(点击右侧按钮录入规格)"
   },
 
   /**o
@@ -204,7 +206,7 @@ Page({
         countryWarning: false
       });
     };
-    if (e.detail.value.weight.trim() == "" && this.data.sizes.length==0) {
+    if (!this.data.isEditSize && e.detail.value.weight.trim() == "") {
       this.showErrorTips();
       this.setData({
         weightWarning: true,
@@ -215,6 +217,13 @@ Page({
       this.setData({
         weightWarning: false
       });
+    }
+    if(this.data.isEditSize && this.data.sizes.length==0){
+      this.showErrorTips();
+      this.setData({
+        errorTips: "请录入规格信息！"
+      });
+      return;
     }
     this.setData({
       isLoading:true
@@ -233,7 +242,7 @@ Page({
         Volumetric: main.data.volumeId,
         PostalCode: e.detail.value.postalcode,
         SelectRuleIds:main.data.selectedRuleIds,
-        Sizes:main.data.sizes
+        Sizes:main.data.isEditSize?main.data.sizes:[]
       },
       success: function (res) {
         main.setData({
@@ -341,29 +350,32 @@ Page({
   
   showSizes: function () {
     let that = this;
-    if (that.data.piece > 0) {
-      wx.navigateTo({
-        url: './sizes/index',
-        events: {
-          submitSizes: function (data) {
-            that.data.sizes = data.sizes;
-            console.log(data.sizes);
-          }
-        },
-        success: function (res) {
-          res.eventChannel.emit("editSizes", {
-            sizes: that.data.sizes,
-            pieces: that.data.piece
+    wx.navigateTo({
+      url: './sizes/index',
+      events: {
+        submitSizes: function (data) {
+          that.data.sizes = data.sizes;
+          let firstSize = that.data.sizes[0];
+          let sizeText = firstSize.length + " * " +firstSize.width +" * "+firstSize.height+" * "+firstSize.piece+" 件...";
+          that.setData({
+            sizeText:sizeText
           });
+          console.log(data.sizes);
         }
-      });
-    }else{
-      wx.showModal({
-        showCancel:false,
-        title:"提示",
-        content:"件数必须大于0！",
-      });
-    }
+      },
+      success: function (res) {
+        res.eventChannel.emit("editSizes", {
+          sizes: that.data.sizes,
+          pieces: that.data.piece
+        });
+      }
+    });
+  },
+  toggleEditSize(){
+    this.setData({
+      isEditSize:!this.data.isEditSize,
+      weight:null
+    });
   }
 })
 function hideCountryList(res){
