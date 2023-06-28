@@ -4,3 +4,6 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+.pieceRule{
+  font-size: 13px;
+}

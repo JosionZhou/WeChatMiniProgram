@@ -1,4 +1,4 @@
-// pages/customerpricecalc/sizes/index.js
+const app = getApp();
 Page({
 
   /**
@@ -6,7 +6,8 @@ Page({
    */
   data: {
     sizes: [],
-    errors: {}
+    errors: {},
+    templateRules:[]
   },
 
   /**
@@ -18,10 +19,22 @@ Page({
     eventChannel.on("editSizes", function (data) {
       if (data.sizes.length > 0) {
         that.setData({
-          sizes: data.sizes,
+          sizes: data.sizes
         });
       }else{
-        that.addSize();
+        let reqData = {
+          url: app.globalData.serverAddress + '/Calculation/GetPieceRuleTemplates',
+          method: "GET",
+          success: function (res) {
+            wx.hideLoading();
+            that.setData({
+              templateRules: res
+            });
+            that.addSize();
+          }
+        }
+        wx.showLoading();
+        app.NetRequest(reqData);
       }
     });
   },
@@ -116,6 +129,9 @@ Page({
       errors: errors
     });
     if (JSON.stringify(errors) == "{}") {
+      that.data.sizes.forEach(size => {
+        size.SelectedPriceRuleTemplateIds=size.templateRules.filter(p=>p.Checked).map(p=>p.ObjectId);
+      });
       let eventChannel = this.getOpenerEventChannel();
       eventChannel.emit("submitSizes", {
         sizes: that.data.sizes
@@ -130,6 +146,14 @@ Page({
   },
   addSize() {
     let size = {};
+    size.SelectedPriceRuleTemplateIds=[];
+    size.templateRules=this.data.templateRules.map(function(p){ 
+      let obj = new Object();
+      obj.ObjectName=p.ObjectName;
+      obj.ObjectId=p.ObjectId;
+      obj.Checked=p.Checked;
+      return obj;
+    });
     let sizes = this.data.sizes;
     sizes.push(size);
     this.setData({
@@ -151,5 +175,14 @@ Page({
     let size = sizes[index];
     size[name] = value;
     this.data.sizes = sizes;
+  },
+  clickRule(e){
+    let sizeIndex = e.target.dataset.sizeindex;
+    let index = e.target.dataset.index;
+    let sizes = this.data.sizes;
+    sizes[sizeIndex].templateRules[index].Checked=!sizes[sizeIndex].templateRules[index].Checked;
+    this.setData({
+      sizes:sizes
+    });
   }
 })
