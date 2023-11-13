@@ -25,7 +25,7 @@
           </view>
         </view>
       </view>
-       <checkbox-group bindchange="bindWeChatChange">
+       <checkbox-group class="float-left" bindchange="bindWeChatChange">
             <label class="weui-agree" for="weuiAgree">
                 <view class="weui-agree__text">
                     <checkbox class="weui-agree__checkbox" id="weuiAgree" value="isBindWeChat" checked="{{isBindWeChat}}" />
@@ -36,6 +36,8 @@
                 </view>
             </label>
         </checkbox-group> 
+        <navigator class="float-right weui-agree" url="../forgotpassword/index">忘记密码？</navigator>
+        <view style="clear: both;"></view>
       <view class="weui-btn-area">
         <!-- <button class='weui-btn' type='primary' form-type='submit'>登录</button> -->
         <button type="primary" open-type="getUserInfo" bindgetuserinfo="userInfoHandler">登录</button> 

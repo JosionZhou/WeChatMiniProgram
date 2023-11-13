@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="page__bd">
+
+    <view style="background-color: red;color: white;padding-left: 15px;" wx:if="{{errMsg.length>0}}">{{errMsg}}</view>
+    <view wx:if="{{!showResetPassword}}">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input {{userNameWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">手机/邮箱</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="userName" model:value="{{userName}}" confirm-type="next" placeholder="请输入手机号码或者邮箱" />
+          </view>
+          <view class="weui-cell__ft">
+            <navigator style="color: #22ca29;font-size: 15px;" bind:tap="sendCode">获取验证码</navigator>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input {{passwordWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">验证码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" model:value="{{code}}" placeholder="请输入验证码" />
+          </view>
+        </view>
+      </view>
+      <view class="weui-btn-area">
+        <button type="primary" bind:tap="next" disabled="{{!isSendCode}}">下一步</button>
+      </view>
+    </view>
+    
+    <view wx:if="{{showResetPassword}}">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input {{userNameWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">输入新密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="userName" model:value="{{newPassword1}}" confirm-type="next" password="true"  placeholder="请输入新密码" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input {{passwordWarning==true?'weui-cell_warn':''}}">
+          <view class="weui-cell__hd">
+            <view class="weui-label">确认密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input"  password="true"  model:value="{{newPassword2}}" placeholder="请再次输入密码" />
+          </view>
+        </view>
+      </view>
+      <view class="weui-btn-area">
+        <button type="primary" bind:tap="submit">提交</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -37,3 +37,10 @@ page{
 .weui-search-bar{
   border-bottom: none
 }
+
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
