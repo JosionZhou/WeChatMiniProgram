@@ -27,7 +27,8 @@
     "pages/subaccount/detail",
     "pages/wechatpay/payexplain",
     "pages/changedeliverypassword/index",
-    "pages/forgotpassword/index"
+    "pages/forgotpassword/index",
+    "pages/select-wechat-record-file/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
