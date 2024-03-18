@@ -13,6 +13,10 @@
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
           <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
+              <view class="weui-cell__bd">目的地</view>
+              <view class="weui-cell__ft">{{item.CountryName}}</view>
+            </view>
+            <view class="weui-cell">
               <view class="weui-cell__bd">报价代码</view>
               <view class="weui-cell__ft">{{item.PriceCode}}</view>
             </view>
