@@ -206,6 +206,18 @@ Page({
         countryWarning: false
       });
     };
+    if(!this.data.countryId){
+      this.showErrorTips();
+      this.setData({
+        countryWarning:true,
+        errorTips:"请输入正确的国家"
+      });
+      return;
+    }else {
+      this.setData({
+        countryWarning: false
+      });
+    };
     if (!this.data.isEditSize && e.detail.value.weight.trim() == "") {
       this.showErrorTips();
       this.setData({
@@ -302,6 +314,24 @@ Page({
       countryId:countryId
     });
     hideCountryList(this);
+  },
+  checkCountry:function(e){
+    hideCountryList(this);
+    let that = this;
+    let inputText = this.data.countryText.toUpperCase();
+    let country = this.data.countryList.find(p=>p.Name.indexOf(inputText)!=-1);
+    if(country){
+      that.setData({
+        countryText:country.Name,
+        countryId:country.Id,
+        countryWarning: false
+      })
+    }else{
+      that.setData({
+        countryId:null,
+        countryWarning: true
+      });
+    }
   },
   showDetail:function(e){
     this.setData({
