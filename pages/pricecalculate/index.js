@@ -244,16 +244,16 @@ Page({
     var data={
       url: app.globalData.serverAddress + '/Calculation/Calculate',
       data: {
-        ProductType: e.detail.value.productcode,
+        ProductContentType: e.detail.value.productcode,
         CountryId: main.data.countryId,
         City: e.detail.value.city,
         DeclaredValue: e.detail.value.declaredvalue,
-        ModeOfTransportId: main.data.modeofTransportId,
+        ModeOfTransportIdList: main.data.modeofTransportId,
         ActualWeight: e.detail.value.weight,
         VolumeWeight: e.detail.value.volumeweight,
         Volumetric: main.data.volumeId,
         PostalCode: e.detail.value.postalcode,
-        SelectRuleIds:main.data.selectedRuleIds,
+        SeletedTemplateRules:main.data.selectedRuleIds,
         Sizes:main.data.isEditSize?main.data.sizes:[]
       },
       success: function (res) {

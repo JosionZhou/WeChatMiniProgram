@@ -130,7 +130,7 @@ Page({
     });
     if (JSON.stringify(errors) == "{}") {
       that.data.sizes.forEach(size => {
-        size.SelectedPriceRuleTemplateIds=size.templateRules.filter(p=>p.Checked).map(p=>p.ObjectId);
+        size.SeletedTemplateRules=size.templateRules.filter(p=>p.Checked).map(p=>p.ObjectId);
       });
       let eventChannel = this.getOpenerEventChannel();
       eventChannel.emit("submitSizes", {
@@ -146,7 +146,7 @@ Page({
   },
   addSize() {
     let size = {};
-    size.SelectedPriceRuleTemplateIds=[];
+    size.SeletedTemplateRules=[];
     size.templateRules=this.data.templateRules.map(function(p){ 
       let obj = new Object();
       obj.ObjectName=p.ObjectName;
