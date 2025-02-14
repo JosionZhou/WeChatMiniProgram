@@ -1,5 +1,5 @@
 // pages/remote/index.js
-var app=getApp()
+var app = getApp()
 Page({
 
   /**
@@ -7,20 +7,20 @@ Page({
    */
   data: {
     countryList: {},
-    filtCountryList:{},
+    filtCountryList: {},
     modeofTransportList: {},
     modeofTransportNameList: {},
     modeofTransportIndex: 1,
     modeofTransportId: 1,
-    modeOfTransportNames:[],
-    isUsePostCode:true,
-    isLoading:false,
-    showErrorTips:false,
-    errorTips:"",
-    isRemote:false,
-    hideResult:true,
-    postalCode:"",
-    city:""
+    modeOfTransportNames: [],
+    isUsePostCode: true,
+    isLoading: false,
+    showErrorTips: false,
+    errorTips: "",
+    isRemote: false,
+    hideResult: true,
+    postalCode: "",
+    city: ""
   },
 
   /**
@@ -29,12 +29,12 @@ Page({
   onLoad: function (options) {
     wx.showLoading({
       title: '请稍后',
-      mask:true
+      mask: true
     })
     var main = this;
     var data = {
       url: app.globalData.serverAddress + '/Common/GetModeOfTransportTypeList',
-      method:"GET",
+      method: "GET",
       success: function (res) {
         var names = new Array();
         for (var i = 0; i < res.length; i++) {
@@ -65,49 +65,49 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   // onShareAppMessage: function () {
-  
+
   // },
   modeofTransportChange: function (e) {
     this.setData({
@@ -139,28 +139,45 @@ Page({
     }
   },
   selectCountry: function (e) {
+    let main=this;
     var countryText = e.currentTarget.dataset["text"];
     var countryId = e.currentTarget.dataset["value"];
-    var usepostalcode = e.currentTarget.dataset["usepostalcode"];
-    this.setData({
-      countryText: countryText,
-      countryId: countryId,
-      isUsePostCode: usepostalcode,
-      postalCode:"",
-      city:""
-    });
-    hideCountryList(this);
+    var queryIsUsePostcodeData ={
+      url: app.globalData.serverAddress + '/Remote/CountryIsUsePostcode',
+      data: {
+        CountryId: countryId,
+        ModeOfTransportTypeId:this.data.modeofTransportId
+      },
+      success:function(isUsePostcode){
+        main.setData({
+          countryText: countryText,
+          countryId: countryId,
+          isUsePostCode: isUsePostcode,
+          postalCode: "",
+          city: ""
+        });
+        hideCountryList(main);
+      },
+      fail:function(err){
+        wx.showModal({
+          title: '操作失败',
+          content: '获取城市/邮编必填信息异常',
+          showCancel:false
+        });
+      }
+    }
+    app.NetRequest(queryIsUsePostcodeData);
   },
   search: function (e) {
     this.initWarning();
     this.setData({
-      hideResult:true
+      hideResult: true
     });
-    if (this.data.modeofTransportId==null){
+    if (this.data.modeofTransportId == null) {
       this.setData({
-        modeOfTransportWarning:true,
-        showErrorTips:true,
-        errorTips:"渠道不能为空"
+        modeOfTransportWarning: true,
+        showErrorTips: true,
+        errorTips: "渠道不能为空"
       });
       this.showErrorTips();
       return;
@@ -185,7 +202,7 @@ Page({
     if (e.detail.value.city.trim() == "" && !this.data.isUsePostCode) {
       this.setData({
         cityWarning: true,
-        postalcodeWarning:false,
+        postalcodeWarning: false,
         showErrorTips: true,
         errorTips: "城市不能为空"
       });
@@ -199,7 +216,7 @@ Page({
     if (e.detail.value.postalcode.trim() == "" && this.data.isUsePostCode) {
       this.setData({
         postalcodeWarning: true,
-        cityWarning:false,
+        cityWarning: false,
         showErrorTips: true,
         errorTips: "邮编不能为空"
       });
@@ -223,14 +240,25 @@ Page({
         Postalcode: e.detail.value.postalcode
       },
       success: function (res) {
-        main.setData({
-          isRemote:res,
-          isLoading:false,
-          hideResult:false
-        });
+        if (res.Status == 0) {
+          main.setData({
+            isRemote: res.IsRemote,
+            isLoading: false,
+            hideResult: false
+          });
+        }else{
+          wx.showModal({
+            title: '操作失败',
+            content: res.Message,
+            showCancel:false
+          });
+          main.setData({
+            isLoading: false
+          });
+        }
       },
       fail: function (res) {
-        
+
       }
     };
     app.NetRequest(data);
@@ -246,15 +274,16 @@ Page({
       });
     }, 2000);
   },
-  initWarning:function(){
+  initWarning: function () {
     this.setData({
-      countryWarning:false,
-      modeOfTransportWarning:false,
-      cityWarning:false,
-      postalcodeWarning:false
+      countryWarning: false,
+      modeOfTransportWarning: false,
+      cityWarning: false,
+      postalcodeWarning: false
     });
   }
 })
+
 function hideCountryList(res) {
   res.setData({
     filtCountryList: {},
