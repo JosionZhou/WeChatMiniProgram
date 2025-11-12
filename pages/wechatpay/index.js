@@ -351,6 +351,14 @@ Page({
       success: function (res) {
         wx.hideLoading();
         var data = JSON.parse(res.Data);
+        if(!res.Success){
+          wx.showModal({
+            title: '请求失败',
+            content: res.ErrMsg,
+            showCancel:false
+          });
+          return;
+        }
         main.data.tradeNo=res.TradeNo;
         wx.requestPayment({
           timeStamp: data.timeStamp,
